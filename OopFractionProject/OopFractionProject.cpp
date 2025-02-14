@@ -165,13 +165,46 @@ public:
             << f.denominator << "]";
         return out;
     }
+    
+    operator double()
+    {
+        return (double)numerator / denominator;
+    }
+};
+
+class Money
+{
+    int rub;
+    int kop;
+public:
+    Money(int rub, int kop) : rub{ rub }, kop{ kop } {}
+
+    int& Rub() { return rub; }
+    int& Kop() { return kop; }
+
+    operator double()
+    {
+        return rub + (double)kop / 100;
+    }
+
+    explicit operator Fraction()
+    {
+        return Fraction(rub * 100 + kop, 100);
+    }
+
+    operator bool()
+    {
+        return rub != 0 || kop != 0;
+    }
 };
 
 int main()
 {
-    Fraction f1(3, 7);
-    Fraction f2(2, 7);
+    Fraction f1(1, 5);
+    /*Fraction f2(2, 7);
     
-    std::cout << f1 << " + " << f2 
-        << " = " << f1 + f2 << "\n";
+    std::cout << ((double)f1 + 5.6) << "\n";*/
+
+    Money m1(10, 20);
+    std::cout << f1 + (Fraction)m1;
 }
